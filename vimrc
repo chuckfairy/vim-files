@@ -59,6 +59,7 @@ if exists(':Bundle')
     Bundle 'rking/ag.vim'
     Bundle 'othree/html5.vim.git'
     Bundle 'SirVer/ultisnips.git'
+	Bundle 'jelera/vim-javascript-syntax.git'
 end
 "}}}
 
