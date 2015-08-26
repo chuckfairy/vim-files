@@ -1,25 +1,15 @@
 au BufRead,BufNewFile *.twig set filetype=htmljinja
 set nu
 set winheight=40
-set winminheight=5
+" set winminheight=5
+
+set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
 set mouse=a
 set nocompatible              " be iMproved, required
-filetype off         " required
+filetype off                  " required
 
-
-" size of a hard tabstop
-set tabstop=4
-
- " size of an "indent"
-set shiftwidth=4
-
-let NERDTreeShowHidden=1
-
-" " a combination of spaces and tabs are used to simulate tab stops at a width
-" " other than the (hard)tabstop
-set softtabstop=4
-
+set clipboard=unnamed
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -27,12 +17,50 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
-" Mini map
-Plugin 'severin-lemaignan/vim-minimap'
-
-
 " let Vundle manage Vundle, required
+
 Plugin 'gmarik/Vundle.vim'
+
+Plugin 'scrooloose/nerdcommenter'
+
+Plugin 'beyondwords/vim-twig'
+
+Plugin 'airblade/vim-gitgutter'
+
+Plugin 'tpope/vim-surround'
+
+Plugin 'Yggdroot/indentLine'
+
+Plugin 'ap/vim-css-color'
+
+Plugin 'godlygeek/csapprox'
+
+Plugin 'SpellCheck'
+
+Plugin 'sudo.vim'
+
+Plugin 'matchit.zip'
+
+Plugin 'flazz/vim-colorschemes'
+
+Plugin 'moll/vim-node'
+
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+Plugin 'bronson/vim-trailing-whitespace'
+
+Plugin 'kchmck/vim-coffee-script'
+
+Plugin 'othree/html5.vim'
+
+Plugin 'cakebaker/scss-syntax.vim'
+
+Plugin 'danro/rename.vim'
+
+Plugin 'tpope/vim-dispatch'
+
+" Plugin 'cosminadrianpopescu/vim-sql-workbench'
+
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -88,7 +116,6 @@ map <C-n> :NERDTreeToggle<CR>
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-
 " let g:solarized_contrast = "normal"
 let g:solarized_termcolors=256
 " let g:solarized_contrast = "normal"
@@ -97,14 +124,33 @@ let g:solarized_termcolors=256
 
 " let g:solarized_visibility =  "high"
 
+" Indent
+let g:indentLine_color_term = 239
+let g:indentLine_char = '+'
+let g:indentLine_enabled = 1
+
+" set list lcs=tab:\+\
+
 syntax enable
 
 set background=dark
 
 "if has('unix')
-set t_Co=256
+"set t_Co=256
 "endif
 
+set t_Co=256
 
+let NERDTreeShowHidden=1
 
-colorscheme monokai 
+match ErrorMsg '\s\+$'
+
+set ts=4 sw=4 et
+let g:indent_guies_start_level=1
+let g:indent_guides_guide_size=1
+hi IndentGuidesOdd  ctermbg=black
+hi IndentGuidesEven ctermbg=darkgrey
+
+autocmd BufEnter * :syntax sync fromstart
+
+colorscheme industry
