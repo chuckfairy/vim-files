@@ -27,40 +27,39 @@ Plugin 'beyondwords/vim-twig'
 
 Plugin 'airblade/vim-gitgutter'
 
-Plugin 'tpope/vim-surround'
+"Plugin 'tpope/vim-surround'
 
-Plugin 'Yggdroot/indentLine'
+"Plugin 'Yggdroot/indentLine'
 
 Plugin 'ap/vim-css-color'
 
 Plugin 'godlygeek/csapprox'
 
-Plugin 'SpellCheck'
+"Plugin 'SpellCheck'
 
 Plugin 'sudo.vim'
 
-Plugin 'matchit.zip'
+"Plugin 'matchit.zip'
 
 Plugin 'flazz/vim-colorschemes'
-
-Plugin 'moll/vim-node'
 
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 Plugin 'bronson/vim-trailing-whitespace'
 
-Plugin 'kchmck/vim-coffee-script'
+"Plugin 'kchmck/vim-coffee-script'
 
-Plugin 'othree/html5.vim'
-
-Plugin 'cakebaker/scss-syntax.vim'
+"Plugin 'othree/html5.vim'
 
 Plugin 'danro/rename.vim'
 
-Plugin 'tpope/vim-dispatch'
+Plugin 'severin-lemaignan/vim-minimap'
 
 " Plugin 'cosminadrianpopescu/vim-sql-workbench'
+"
+Plugin 'majutsushi/tagbar'
 
+Plugin 'jaxbot/browserlink.vim'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -112,6 +111,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
 map <C-n> :NERDTreeToggle<CR>
+map <S-f> :FixWhitespace<CR>
 
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -151,6 +151,6 @@ let g:indent_guides_guide_size=1
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 
-autocmd BufEnter * :syntax sync fromstart
+"autocmd BufEnter * :syntax sync fromstart
 
-colorscheme industry
+colorscheme xterm16
