@@ -11,6 +11,8 @@ filetype off                  " required
 
 set clipboard=unnamed
 
+set cindent
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -55,11 +57,14 @@ Plugin 'danro/rename.vim'
 
 Plugin 'severin-lemaignan/vim-minimap'
 
+Plugin 'mattn/emmet-vim'
+
+
 " Plugin 'cosminadrianpopescu/vim-sql-workbench'
 "
-Plugin 'majutsushi/tagbar'
+" Plugin 'majutsushi/tagbar'
 
-Plugin 'jaxbot/browserlink.vim'
+" Plugin 'jaxbot/browserlink.vim'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -112,6 +117,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 map <C-n> :NERDTreeToggle<CR>
 map <S-f> :FixWhitespace<CR>
+map <C-i> :put =map(range(1,30000), 'printf(''%06d'', v:val)')<CR>
 
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -141,6 +147,10 @@ set background=dark
 
 set t_Co=256
 
+set guioptions-=r
+set guioptions-=R
+set guioptions-=L
+
 let NERDTreeShowHidden=1
 
 match ErrorMsg '\s\+$'
@@ -153,4 +163,5 @@ hi IndentGuidesEven ctermbg=darkgrey
 
 "autocmd BufEnter * :syntax sync fromstart
 
-colorscheme xterm16
+colorscheme af
+colorscheme ubaryd
