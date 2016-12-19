@@ -9,7 +9,7 @@ set mouse=a
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 set cindent
 
@@ -29,6 +29,16 @@ Plugin 'beyondwords/vim-twig'
 
 Plugin 'airblade/vim-gitgutter'
 
+Plugin 'rbong/vim-vertical'
+
+Plugin 'Shougo/vimproc'
+
+Plugin 'taglist.vim'
+
+Plugin 'kien/ctrlp.vim'
+
+Plugin 'vhdirk/vim-cmake'
+
 "Plugin 'tpope/vim-surround'
 
 "Plugin 'Yggdroot/indentLine'
@@ -36,6 +46,10 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'ap/vim-css-color'
 
 Plugin 'godlygeek/csapprox'
+
+Plugin 'Shougo/neocomplcache.vim'
+
+"Plugin 'Rip-Rip/clang_complete'
 
 "Plugin 'SpellCheck'
 
@@ -49,6 +63,10 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 Plugin 'bronson/vim-trailing-whitespace'
 
+Plugin 'c.vim'
+
+Plugin 'octol/vim-cpp-enhanced-highlight'
+
 "Plugin 'kchmck/vim-coffee-script'
 
 "Plugin 'othree/html5.vim'
@@ -58,6 +76,16 @@ Plugin 'danro/rename.vim'
 Plugin 'severin-lemaignan/vim-minimap'
 
 Plugin 'mattn/emmet-vim'
+
+Plugin 'majutsushi/tagbar'
+
+"Plugin 'OmniCppComplete'
+"
+Plugin 'Valloric/YouCompleteMe'
+
+Plugin 'derekwyatt/vim-fswitch'
+
+"Plugin 'bbchung/clighter'
 
 
 " Plugin 'cosminadrianpopescu/vim-sql-workbench'
@@ -76,7 +104,6 @@ Plugin 'tpope/vim-fugitive'
 "Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
 "Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
 "Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Avoid a name conflict with L9
@@ -102,28 +129,56 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 Bundle 'shawncplus/phpcomplete.vim'
 Bundle 'scrooloose/nerdtree'
 
-
-
-"  * Created the initial version of this script while playing around with VIM
-"
-"  
-"
-"
+autocmd FileType cpp TagbarOpen
+autocmd FileType c TagbarOpen
 
 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
+au! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '../inc'
 
 map <C-n> :NERDTreeToggle<CR>
 map <S-f> :FixWhitespace<CR>
 map <C-i> :put =map(range(1,30000), 'printf(''%06d'', v:val)')<CR>
 
+nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
+
+"Switch to the file and load it into the current window >
+nmap <silent> <Leader>of :FSHere<cr>
+
+"Switch to the file and load it into the window on the right >
+nmap <silent> <Leader>ol :FSRight<cr>
+
+"Switch to the file and load it into a new window split on the right >
+nmap <silent> <Leader>oL :FSSplitRight<cr>
+
+"Switch to the file and load it into the window on the left >
+nmap <silent> <Leader>oh :FSLeft<cr>
+
+"Switch to the file and load it into a new window split on the left >
+nmap <silent> <Leader>oH :FSSplitLeft<cr>
+
+" Switch to the file and load it into the window above >
+nmap <silent> <Leader>ok :FSAbove<cr>
+
+" Switch to the file and load it into a new window split above >
+nmap <silent> <Leader>oK :FSSplitAbove<cr>
+
+" Switch to the file and load it into the window below >
+nmap <silent> <Leader>oj :FSBelow<cr>
+
+" Switch to the file and load it into a new window split below >
+nmap <silent> <Leader>oJ :FSSplitBelow<cr>
+
+"bind C-y run "tmux show-buffer | xclip -i"
+
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " let g:solarized_contrast = "normal"
-let g:solarized_termcolors=256
+" let g:solarized_termcolors=256
 " let g:solarized_contrast = "normal"
 "let g:solarized_bold=0
 "let g:solarized_diffmode="high"
@@ -161,7 +216,13 @@ let g:indent_guides_guide_size=1
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 
+let g:cpp_class_scope_highlight = 1
+let g:cpp_concepts_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+
 "autocmd BufEnter * :syntax sync fromstart
 
 colorscheme af
-colorscheme ubaryd
+colorscheme jellyx
