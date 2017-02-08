@@ -1,4 +1,5 @@
 au BufRead,BufNewFile *.twig set filetype=htmljinja
+
 set nu
 set winheight=40
 " set winminheight=5
@@ -20,6 +21,7 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
+"
 
 Plugin 'gmarik/Vundle.vim'
 
@@ -82,6 +84,12 @@ Plugin 'majutsushi/tagbar'
 "Plugin 'OmniCppComplete'
 "
 Plugin 'Valloric/YouCompleteMe'
+
+" Track the engine.
+Plugin 'sirver/ultisnips'
+
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
 
 Plugin 'derekwyatt/vim-fswitch'
 
@@ -221,6 +229,29 @@ let g:cpp_concepts_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+" this mapping Enter key to <C-y> to chose the current highlight item 
+" and close the selection list, same as other IDEs.
+" CONFLICT with some plugins like tpope/Endwise
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 "autocmd BufEnter * :syntax sync fromstart
 
