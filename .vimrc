@@ -14,6 +14,9 @@ set clipboard=unnamedplus
 
 set cindent
 
+"Status Line
+set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ \[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %=\ Line:%l\/%L\ Column:%c%V\ %P
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -93,6 +96,8 @@ Plugin 'honza/vim-snippets'
 
 Plugin 'derekwyatt/vim-fswitch'
 
+Plugin 'will133/vim-dirdiff'
+
 "Plugin 'bbchung/clighter'
 
 
@@ -153,6 +158,9 @@ map <C-i> :put =map(range(1,30000), 'printf(''%06d'', v:val)')<CR>
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
 
+"Search by selected
+vnoremap // y/<C-R>"<CR>
+
 "Switch to the file and load it into the current window >
 nmap <silent> <Leader>of :FSHere<cr>
 
@@ -198,6 +206,9 @@ let g:indentLine_color_term = 239
 let g:indentLine_char = '+'
 let g:indentLine_enabled = 1
 
+" CTRLP
+let g:ctrlp_max_files=0
+
 " set list lcs=tab:\+\
 
 syntax enable
@@ -214,6 +225,13 @@ set guioptions-=r
 set guioptions-=R
 set guioptions-=L
 
+
+"Buffer Location
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
+"NERD
 let NERDTreeShowHidden=1
 
 match ErrorMsg '\s\+$'
@@ -255,5 +273,4 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 "autocmd BufEnter * :syntax sync fromstart
 
-colorscheme af
 colorscheme jellyx
