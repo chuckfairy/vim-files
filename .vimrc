@@ -98,6 +98,8 @@ Plugin 'derekwyatt/vim-fswitch'
 
 Plugin 'will133/vim-dirdiff'
 
+Plugin 'vim-scripts/TaskList.vim'
+
 "Plugin 'bbchung/clighter'
 
 
@@ -111,6 +113,7 @@ Plugin 'will133/vim-dirdiff'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
+
 " plugin from http://vim-scripts.org/vim/scripts.html
 "Plugin 'L9'
 " Git plugin not hosted on GitHub
@@ -121,8 +124,10 @@ Plugin 'tpope/vim-fugitive'
 "Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Avoid a name conflict with L9
 "Plugin 'user/L9', {'name': 'newL9'}
+"
 call vundle#end()            " required
 filetype plugin indent on    " required
+
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -141,6 +146,8 @@ Bundle 'ervandew/supertab'
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 Bundle 'shawncplus/phpcomplete.vim'
 Bundle 'scrooloose/nerdtree'
+
+Plugin 'EvanDotPro/nerdtree-chmod'
 
 autocmd FileType cpp TagbarOpen
 autocmd FileType c TagbarOpen
