@@ -1,4 +1,5 @@
 au BufRead,BufNewFile *.twig set filetype=htmljinja
+au BufRead,BufNewFile *.qss set filetype=css
 
 set nu
 set winheight=40
@@ -72,6 +73,8 @@ Plugin 'c.vim'
 
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
+Plugin 'peterhoeg/vim-qml'
+
 "Plugin 'kchmck/vim-coffee-script'
 
 "Plugin 'othree/html5.vim'
@@ -124,7 +127,7 @@ Plugin 'tpope/vim-fugitive'
 "Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Avoid a name conflict with L9
 "Plugin 'user/L9', {'name': 'newL9'}
-"
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -140,11 +143,9 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
 set completeopt=longest,menuone
 Bundle 'ervandew/supertab'
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-Bundle 'shawncplus/phpcomplete.vim'
 Bundle 'scrooloose/nerdtree'
 
 Plugin 'EvanDotPro/nerdtree-chmod'
@@ -160,7 +161,10 @@ au! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '../inc'
 
 map <C-n> :NERDTreeToggle<CR>
 map <S-f> :FixWhitespace<CR>
+map <C-k> :tabnew %<CR>
 map <C-i> :put =map(range(1,30000), 'printf(''%06d'', v:val)')<CR>
+
+
 
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
@@ -255,6 +259,11 @@ let g:cpp_experimental_template_highlight = 1
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 
+" Disable sql complete
+let g:omni_sql_no_default_maps = 1
+let g:ftplugin_sql_omni_key = '<Leader>sql'
+let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
+
 function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
@@ -273,7 +282,7 @@ endfunction
 au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsListSnippets="<c-e>"
-" this mapping Enter key to <C-y> to chose the current highlight item 
+" this mapping Enter key to <C-y> to chose the current highlight item
 " and close the selection list, same as other IDEs.
 " CONFLICT with some plugins like tpope/Endwise
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
