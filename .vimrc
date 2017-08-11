@@ -7,6 +7,8 @@ set winheight=40
 
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
+set hlsearch
+
 set mouse=a
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -162,8 +164,14 @@ au! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '../inc'
 map <C-n> :NERDTreeToggle<CR>
 map <S-f> :FixWhitespace<CR>
 map <C-k> :tabnew %<CR>
-map <C-i> :put =map(range(1,30000), 'printf(''%06d'', v:val)')<CR>
 
+" map <C-i> :put =map(range(1,30000), 'printf(''%06d'', v:val)')<CR> " Range unused
+
+
+" Output file name and Directory
+map <C-i> :put =expand('%:t:r')<CR>
+nmap <silent> <leader>i :put =expand('%:p')<CR>
+nmap <silent> <leader>dir :put =expand('%<')<CR>
 
 
 nnoremap <leader>. :CtrlPTag<cr>
