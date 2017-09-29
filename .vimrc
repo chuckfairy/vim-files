@@ -1,5 +1,7 @@
+" File Types
 au BufRead,BufNewFile *.twig set filetype=htmljinja
 au BufRead,BufNewFile *.qss set filetype=css
+au BufRead,BufNewFile *.qrc set filetype=xml
 
 set nu
 set winheight=40
@@ -15,10 +17,14 @@ filetype off                  " required
 
 set clipboard=unnamedplus
 
+set nofoldenable " No code folding
+
 set cindent
 
 "Status Line
 set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ \[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %=\ Line:%l\/%L\ Column:%c%V\ %P
+
+let &path .= "," . system("git rev-parse --show-toplevel | tr -d '\\n'") . ",**"
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -46,6 +52,7 @@ Plugin 'taglist.vim'
 Plugin 'kien/ctrlp.vim'
 
 Plugin 'vhdirk/vim-cmake'
+
 
 "Plugin 'tpope/vim-surround'
 
@@ -133,17 +140,12 @@ Plugin 'tpope/vim-fugitive'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
 " Brief help
 " :PluginList       - lists configured plugins
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+
 
 set completeopt=longest,menuone
 Bundle 'ervandew/supertab'
@@ -151,6 +153,7 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 Bundle 'scrooloose/nerdtree'
 
 Plugin 'EvanDotPro/nerdtree-chmod'
+Plugin 'chuckfairy/nerdtree-reveal'
 
 autocmd FileType cpp TagbarOpen
 autocmd FileType c TagbarOpen
@@ -161,12 +164,18 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 au! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '../inc'
 
+" Nerd tree keys
 map <C-n> :NERDTreeToggle<CR>
+nmap <silent> <Leader>tf :NERDTreeFind<CR>
+
+
 map <S-f> :FixWhitespace<CR>
 map <C-k> :tabnew %<CR>
 
-" map <C-i> :put =map(range(1,30000), 'printf(''%06d'', v:val)')<CR> " Range unused
 
+nnoremap <leader>. :CtrlPTag<cr>
+
+nnoremap <leader>pc :CtrlPClearAllCaches <cr>
 
 " Output file name and Directory
 map <C-i> :put =expand('%:t:r')<CR>
@@ -177,11 +186,14 @@ nmap <silent> <leader>dir :put =expand('%<')<CR>
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
 
+
 "Search by selected
 vnoremap // y/<C-R>"<CR>
 
+
 "Switch to the file and load it into the current window >
 nmap <silent> <Leader>of :FSHere<cr>
+
 
 "Switch to the file and load it into the window on the right >
 nmap <silent> <Leader>ol :FSRight<cr>
@@ -212,31 +224,22 @@ nmap <silent> <Leader>oJ :FSSplitBelow<cr>
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-" let g:solarized_contrast = "normal"
-" let g:solarized_termcolors=256
-" let g:solarized_contrast = "normal"
-"let g:solarized_bold=0
-"let g:solarized_diffmode="high"
-
-" let g:solarized_visibility =  "high"
 
 " Indent
 let g:indentLine_color_term = 239
 let g:indentLine_char = '+'
 let g:indentLine_enabled = 1
 
+
 " CTRLP
 let g:ctrlp_max_files=0
+
 
 " set list lcs=tab:\+\
 
 syntax enable
 
 set background=dark
-
-"if has('unix')
-"set t_Co=256
-"endif
 
 set t_Co=256
 
@@ -290,6 +293,8 @@ endfunction
 au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsListSnippets="<c-e>"
+
+
 " this mapping Enter key to <C-y> to chose the current highlight item
 " and close the selection list, same as other IDEs.
 " CONFLICT with some plugins like tpope/Endwise
