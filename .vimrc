@@ -112,6 +112,8 @@ Plugin 'will133/vim-dirdiff'
 
 Plugin 'vim-scripts/TaskList.vim'
 
+Plugin 'tomlion/vim-solidity'
+
 "Plugin 'bbchung/clighter'
 
 
