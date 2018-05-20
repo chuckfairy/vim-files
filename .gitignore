@@ -2,3 +2,4 @@
 ftplugin/python/**/*.pyc
 .netrwhist
 *.sw[pon]
+bundle

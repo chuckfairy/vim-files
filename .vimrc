@@ -84,6 +84,8 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 
 Plugin 'peterhoeg/vim-qml'
 
+Plugin 'maksimr/vim-jsbeautify'
+
 "Plugin 'kchmck/vim-coffee-script'
 
 "Plugin 'othree/html5.vim'
@@ -113,6 +115,8 @@ Plugin 'will133/vim-dirdiff'
 Plugin 'vim-scripts/TaskList.vim'
 
 Plugin 'tomlion/vim-solidity'
+
+Plugin 'moll/vim-node'
 
 "Plugin 'bbchung/clighter'
 
@@ -271,6 +275,8 @@ let g:cpp_concepts_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+
+let g:ycm_filetype_blacklist = { 'js': 1 }
 
 " Disable sql complete
 let g:omni_sql_no_default_maps = 1
