@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " File Types
 au BufRead,BufNewFile *.twig set filetype=htmljinja
 au BufRead,BufNewFile *.qss set filetype=css
@@ -10,6 +12,9 @@ set winheight=40
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
 set hlsearch
+set ruler " show cursor position in status bar
+set showmatch " highlights matching parens/brackets
+set autoindent " copy indent from prior line
 
 set mouse=a
 set nocompatible              " be iMproved, required
@@ -51,8 +56,6 @@ Plugin 'taglist.vim'
 
 Plugin 'kien/ctrlp.vim'
 
-Plugin 'vhdirk/vim-cmake'
-
 
 "Plugin 'tpope/vim-surround'
 
@@ -67,6 +70,8 @@ Plugin 'Shougo/neocomplcache.vim'
 "Plugin 'Rip-Rip/clang_complete'
 
 "Plugin 'SpellCheck'
+
+" Plugin 'docteurklein/php-getter-setter.vim'
 
 Plugin 'sudo.vim'
 
@@ -100,7 +105,7 @@ Plugin 'majutsushi/tagbar'
 
 "Plugin 'OmniCppComplete'
 "
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 
 " Track the engine.
 Plugin 'sirver/ultisnips'
@@ -117,6 +122,19 @@ Plugin 'vim-scripts/TaskList.vim'
 Plugin 'tomlion/vim-solidity'
 
 Plugin 'moll/vim-node'
+
+Plugin 'tobyS/vmustache'
+
+Plugin 'StanAngeloff/php.vim'
+
+Plugin 'arnaud-lb/vim-php-namespace'
+
+Plugin 'tobyS/pdv'
+
+Plugin 'joonty/vim-phpunitqf'
+
+Plugin 'joonty/vim-phpqa'
+
 
 "Plugin 'bbchung/clighter'
 
@@ -257,10 +275,14 @@ set guioptions-=L
 "Buffer Location
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
+set undofile												" create undo files so undos carry over even after closed
+set undolevels=5000											" store up to 5000 levels of undo history
 set undodir=~/.vim/undo//
 
 "NERD
 let NERDTreeShowHidden=1
+let g:NERDTreeDirArrowExpandable="+"
+let g:NERDTreeDirArrowCollapsible="~"
 
 match ErrorMsg '\s\+$'
 
@@ -303,11 +325,61 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsListSnippets="<c-e>"
 
 
+" php syntax options
+" turning off a bunch of things to speed up scrolling
+let php_sql_query = 0
+let php_sql_heredoc = 0
+let php_sql_nowdoc = 0
+"let php_html_in_strings = 0
+let php_html_in_heredoc = 0
+let php_html_in_nowdoc = 0
+let php_html_load = 0
+let php_ignore_phpdoc = 0
+let php_htmlInStrings = 1
+
+
+" Use statements
+"function! IPhpInsertUse()
+    "call PhpInsertUse()
+    "call feedkeys('a',  'n')
+"endfunction
+"autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
+"autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
+
+" Documentor
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+noremap <leader>, :call pdv#DocumentWithSnip()<CR>
+
 " this mapping Enter key to <C-y> to chose the current highlight item
 " and close the selection list, same as other IDEs.
 " CONFLICT with some plugins like tpope/Endwise
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 "autocmd BufEnter * :syntax sync fromstart
+"
+"Put snippet overrides in this function.
+function! PhpSyntaxOverride()
+     hi! link phpDocTags phpDefine
+     hi! link phpDocParam phpType
+ endfunction
+
+augroup phpSyntaxOverride
+ autocmd!
+ autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
+let g:phpqa_codesniffer_args = "--standard=/home/cabeling/sources/psr-codesniff.xml"
+
+let g:phpqa_messdetector_ruleset = "/home/cabeling/sources/phpmdrules.xml"
+let g:phpqa_codecoverage_file = "/home/cabeling/sources/clover.xml"
+
+" PHP Code Sniffer binary (default = "phpcs")
+let g:phpqa_codesniffer_cmd='phpcs.phar'
+
+" PHP Mess Detector binary (default = "phpmd")
+let g:phpqa_messdetector_cmd='phpmd.phar'
+
+
+"COLOR
 
 colorscheme jellyx
