@@ -9,16 +9,23 @@ set nu
 set winheight=40
 " set winminheight=5
 
-set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
+set tabstop=4 softtabstop=0 expandtab! shiftwidth=4 noet
+
+set listchars=nbsp:·,tab:│·,trail:\ 
+set list " turns on showing chars described in listchars
+set showmatch " highlights matching parens/brackets
+set relativenumber
 
 set hlsearch
 set ruler " show cursor position in status bar
 set showmatch " highlights matching parens/brackets
 set autoindent " copy indent from prior line
 
+set ttyfast
+
 set mouse=a
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible " be iMproved, required
+filetype off " required
 
 set clipboard=unnamedplus
 
@@ -191,6 +198,12 @@ au! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '../inc'
 " Nerd tree keys
 map <C-n> :NERDTreeToggle<CR>
 nmap <silent> <Leader>tf :NERDTreeFind<CR>
+
+" enable line numbers
+let NERDTreeShowLineNumbers=1
+
+" make sure relative line numbers are used
+autocmd FileType nerdtree setlocal relativenumber
 
 
 map <S-f> :FixWhitespace<CR>
