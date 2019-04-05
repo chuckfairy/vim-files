@@ -401,11 +401,6 @@ set viewoptions=folds,options,cursor,unix,slash
 set virtualedit=onemore
 set shell=bash\ --login
 
-"Spaces, not tabs
-set shiftwidth=4
-set tabstop=4
-set expandtab
-
 "Speed highlighting up
 set nocursorcolumn
 set nocursorline

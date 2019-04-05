@@ -138,9 +138,17 @@ Plugin 'arnaud-lb/vim-php-namespace'
 
 Plugin 'tobyS/pdv'
 
-Plugin 'joonty/vim-phpunitqf'
+Plugin 'fatih/vim-go'
 
-Plugin 'joonty/vim-phpqa'
+Plugin 'vim-utils/vim-man'
+
+Plugin 'mxw/vim-jsx'
+
+Plugin 'benmills/vimux'
+
+"Plugin 'joonty/vim-phpunitqf'
+
+"Plugin 'joonty/vim-phpqa'
 
 
 "Plugin 'bbchung/clighter'
@@ -299,7 +307,6 @@ let g:NERDTreeDirArrowCollapsible="~"
 
 match ErrorMsg '\s\+$'
 
-set ts=4 sw=4 et
 let g:indent_guies_start_level=1
 let g:indent_guides_guide_size=1
 hi IndentGuidesOdd  ctermbg=black
