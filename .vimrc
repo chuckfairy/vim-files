@@ -4,6 +4,7 @@ scriptencoding utf-8
 au BufRead,BufNewFile *.twig set filetype=htmljinja
 au BufRead,BufNewFile *.qss set filetype=css
 au BufRead,BufNewFile *.qrc set filetype=xml
+au BufRead,BufNewFile *.mm set filetype=objc
 
 set nu
 set winheight=40
