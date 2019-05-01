@@ -279,9 +279,9 @@ let g:indentLine_enabled = 1
 
 " CTRLP
 let g:ctrlp_max_files=0
+set wildignore=node_modules,build
 
 
-" set list lcs=tab:\+\
 
 syntax enable
 
