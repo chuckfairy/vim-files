@@ -147,6 +147,10 @@ Plugin 'mxw/vim-jsx'
 
 Plugin 'benmills/vimux'
 
+Plugin 'chuckfairy/jellyfairy.vim'
+
+Plugin 'AutoComplPop'
+
 "Plugin 'joonty/vim-phpunitqf'
 
 "Plugin 'joonty/vim-phpqa'
@@ -403,4 +407,4 @@ let g:phpqa_messdetector_cmd='phpmd.phar'
 
 "COLOR
 
-colorscheme jellyx
+colorscheme jellyfairy
