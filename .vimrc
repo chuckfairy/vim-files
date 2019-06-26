@@ -143,6 +143,12 @@ Plugin 'fatih/vim-go'
 
 Plugin 'vim-utils/vim-man'
 
+Plugin 'pangloss/vim-javascript'
+
+Plugin 'jelera/vim-javascript-syntax'
+
+Plugin 'othree/yajs'
+
 Plugin 'mxw/vim-jsx'
 
 Plugin 'benmills/vimux'
