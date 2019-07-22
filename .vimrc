@@ -157,6 +157,12 @@ Plugin 'chuckfairy/jellyfairy.vim'
 
 Plugin 'AutoComplPop'
 
+Plugin 'elixir-editors/vim-elixir'
+
+Plugin 'chase/vim-ansible-yaml'
+
+Plugin 'leafgarland/typescript-vim'
+
 "Plugin 'joonty/vim-phpunitqf'
 
 "Plugin 'joonty/vim-phpqa'
