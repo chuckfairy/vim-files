@@ -35,7 +35,7 @@ set nofoldenable " No code folding
 set cindent
 
 "Status Line
-set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ \[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %=\ Line:%l\/%L\ Column:%c%V\ %P
+set statusline=%<%f%m\ \[%Y]\ %=\ Line:%l\/%L\ Column:%c%V\ %P
 
 let &path .= "," . system("git rev-parse --show-toplevel | tr -d '\\n'") . ",**"
 
@@ -75,6 +75,8 @@ Plugin 'godlygeek/csapprox'
 
 Plugin 'Shougo/neocomplcache.vim'
 
+Plugin 'hashivim/vim-terraform'
+
 "Plugin 'Rip-Rip/clang_complete'
 
 "Plugin 'SpellCheck'
@@ -95,6 +97,8 @@ Plugin 'c.vim'
 
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
+"Plugin 'oranget/vim-csharp'
+
 Plugin 'peterhoeg/vim-qml'
 
 Plugin 'maksimr/vim-jsbeautify'
@@ -113,7 +117,7 @@ Plugin 'majutsushi/tagbar'
 
 "Plugin 'OmniCppComplete'
 "
-"Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 
 " Track the engine.
 Plugin 'sirver/ultisnips'
@@ -229,6 +233,7 @@ let NERDTreeShowLineNumbers=1
 
 " make sure relative line numbers are used
 autocmd FileType nerdtree setlocal relativenumber
+let NERDTreeIgnore = ['\.meta$']
 
 
 map <S-f> :FixWhitespace<CR>
@@ -336,6 +341,9 @@ let g:cpp_experimental_template_highlight = 1
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 
 let g:ycm_filetype_blacklist = { 'js': 1 }
+
+let g:ycm_auto_start_csharp_server = 1
+let g:ycm_auto_stop_csharp_server = 1
 
 " Disable sql complete
 let g:omni_sql_no_default_maps = 1
