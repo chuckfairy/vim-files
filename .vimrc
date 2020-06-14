@@ -22,8 +22,6 @@ set ruler " show cursor position in status bar
 set showmatch " highlights matching parens/brackets
 set autoindent " copy indent from prior line
 
-set ttyfast
-
 set mouse=a
 set nocompatible " be iMproved, required
 filetype off " required
@@ -93,19 +91,23 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 Plugin 'bronson/vim-trailing-whitespace'
 
-Plugin 'c.vim'
 
+" C / C+
+
+Plugin 'c.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'vim-scripts/h2cppx'
+"Plugin 'quark-zju/vim-cpp-auto-include'
+
 
 "Plugin 'oranget/vim-csharp'
+Plugin 'OmniSharp/omnisharp-vim'
 
 Plugin 'peterhoeg/vim-qml'
 
 Plugin 'maksimr/vim-jsbeautify'
 
 "Plugin 'kchmck/vim-coffee-script'
-
-"Plugin 'othree/html5.vim'
 
 Plugin 'danro/rename.vim'
 
@@ -118,6 +120,11 @@ Plugin 'majutsushi/tagbar'
 "Plugin 'OmniCppComplete'
 "
 Plugin 'Valloric/YouCompleteMe'
+
+
+" Other langs
+Plugin 'tikhomirov/vim-glsl'
+
 
 " Track the engine.
 Plugin 'sirver/ultisnips'
@@ -143,10 +150,15 @@ Plugin 'arnaud-lb/vim-php-namespace'
 
 Plugin 'tobyS/pdv'
 
-Plugin 'fatih/vim-go'
+"Plugin 'fatih/vim-go'
 
 Plugin 'vim-utils/vim-man'
 
+"HTML
+Plugin 'alvan/vim-closetag'
+"Plugin 'othree/html5.vim'
+
+"javascript
 Plugin 'pangloss/vim-javascript'
 
 Plugin 'jelera/vim-javascript-syntax'
@@ -217,6 +229,7 @@ Plugin 'chuckfairy/nerdtree-reveal'
 
 autocmd FileType cpp TagbarOpen
 autocmd FileType c TagbarOpen
+autocmd! BufNewFile,BufRead *.vs,*.fs,*.shader set ft=glsl
 
 
 autocmd StdinReadPre * let s:std_in=1
@@ -235,12 +248,16 @@ let NERDTreeShowLineNumbers=1
 autocmd FileType nerdtree setlocal relativenumber
 let NERDTreeIgnore = ['\.meta$']
 
+" @TODO autocmd BufWritePre /some/path/**.cpp :ruby CppAutoInclude::process
+
 
 map <S-f> :FixWhitespace<CR>
 map <C-k> :tabnew %<CR>
 
 
 nnoremap <leader>. :CtrlPTag<cr>
+
+nnoremap <leader>3 :YcmForceCompileAndDiagnostics<cr>
 
 nnoremap <leader>pc :CtrlPClearAllCaches <cr>
 
@@ -300,7 +317,7 @@ let g:indentLine_enabled = 1
 
 " CTRLP
 let g:ctrlp_max_files=0
-set wildignore=node_modules,build
+set wildignore=node_modules,build,Library,*.meta
 
 
 
@@ -339,6 +356,7 @@ let g:cpp_concepts_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+"let g:ycm_auto_trigger = 1
 
 let g:ycm_filetype_blacklist = { 'js': 1 }
 
@@ -349,6 +367,62 @@ let g:ycm_auto_stop_csharp_server = 1
 let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Leader>sql'
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
+
+let g:OmniSharp_server_use_mono = 1
+let g:OmniSharp_server_stdio = 1
+
+augroup omnisharp_commands
+    autocmd!
+
+    " Show type information automatically when the cursor stops moving.
+    " Note that the type is echoed to the Vim command line, and will overwrite
+    " any other messages in this space including e.g. ALE linting messages.
+    autocmd CursorHold *.cs OmniSharpTypeLookup
+
+    " The following commands are contextual, based on the cursor position.
+    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+
+    " Finds members in the current buffer
+    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+
+    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+    "autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+    autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
+    autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+
+    " Navigate up and down by method/property/field
+    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+
+    " Find all code errors/warnings for the current solution and populate the quickfix window
+    autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+augroup END
+
+" Tell ALE to use OmniSharp for linting C# files, and no other linters.
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+
+" Update semantic highlighting after all text changes
+let g:OmniSharp_highlight_types = 3
+
+" Contextual code actions (uses fzf, CtrlP or unite.vim when available)
+nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
+" Run code actions with text selected in visual mode to extract method
+xnoremap <Leader><Space> :call OmniSharp#GetCodeActions('visual')<CR>
+
+" Rename with dialog
+nnoremap <Leader>nm :OmniSharpRename<CR>
+nnoremap <F2> :OmniSharpRename<CR>
+" Rename without dialog - with cursor on the symbol to rename: `:Rename newname`
+command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+
+nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
+
+" Start the omnisharp server for the current solution
+nnoremap <Leader>ss :OmniSharpStartServer<CR>
 
 function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
@@ -368,6 +442,9 @@ endfunction
 au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsListSnippets="<c-e>"
+
+
+"autocmd BufEnter * :syntax sync fromstart
 
 
 " php syntax options
@@ -399,8 +476,6 @@ noremap <leader>, :call pdv#DocumentWithSnip()<CR>
 " and close the selection list, same as other IDEs.
 " CONFLICT with some plugins like tpope/Endwise
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-"autocmd BufEnter * :syntax sync fromstart
 "
 "Put snippet overrides in this function.
 function! PhpSyntaxOverride()
