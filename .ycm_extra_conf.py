@@ -29,8 +29,11 @@ BASE_FLAGS = [
         '-isystem/usr/lib/gcc/x86_64-linux-gnu/5.4.1',
         '-isystem/usr/lib/gcc/x86_64-linux-gnu/6.3.0',
         '-isystem/usr/lib/gcc/x86_64-linux-gnu/7.2.0',
+        '-isystem/usr/lib/gcc/x86_64-linux-gnu/8',
         '-isystem/usr/bin/lib/gcc/x86_64-linux-gnu/7.2.0',
         '-I/usr/include/c++/6.3.0/'
+        '-I/usr/include/c++/*/'
+        '-I/usr/include/c++/7.5.0/'
         ]
 
 SOURCE_EXTENSIONS = [
@@ -106,6 +109,7 @@ def MakeRelativePathsInFlagsAbsolute(flags, working_directory):
         return list(flags)
     new_flags = [
             '-I/usr/include/c++/v1/',
+            '-I/usr/include/c++/7/',
             '-isystem/usr/bin/lib/gcc/x86_64-linux-gnu/4.9',
             '-isystem/usr/bin/lib/gcc/x86_64-linux-gnu/4.9.3',
             '-isystem/usr/bin/lib/gcc/x86_64-linux-gnu/5.4.1',
@@ -117,6 +121,7 @@ def MakeRelativePathsInFlagsAbsolute(flags, working_directory):
             '-isystem/usr/lib/gcc/x86_64-linux-gnu/6.3.0',
             '-isystem/usr/lib/gcc/x86_64-linux-gnu/7.2.0',
             '-isystem/usr/bin/lib/gcc/x86_64-linux-gnu/7.2.0',
+            '-isystem/usr/bin/lib/gcc/x86_64-linux-gnu/*',
             ]
     make_next_absolute = False
     path_flags = [ '-isystem', '-I', '-iquote', '--sysroot=' ]
@@ -169,6 +174,7 @@ def FlagsForCompilationDatabase(root, filename):
         # out of source projects
         compilation_db_path = FindNearest(root, 'compile_commands.json', 'build')
         compilation_db_dir = os.path.dirname(compilation_db_path)
+
         logging.info("Set compilation database directory to " + compilation_db_dir)
         compilation_db =  ycm_core.CompilationDatabase(compilation_db_dir)
         if not compilation_db:

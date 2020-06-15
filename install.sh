@@ -18,4 +18,4 @@ vim -c :PluginInstall -c :qa
 echo "Install YCM modules"
 
 #cd ./bundle/YouCompleteMe;
-./bundle/YouCompleteMe/install.py --clangd-completer --ts-completer --cs-completer
+./bundle/YouCompleteMe/install.py --clang-completer --ts-completer --cs-completer
