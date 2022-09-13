@@ -96,12 +96,20 @@ Plugin 'bronson/vim-trailing-whitespace'
 
 Plugin 'c.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'vim-scripts/h2cppx'
+"Plugin 'vim-scripts/h2cppx'
 "Plugin 'quark-zju/vim-cpp-auto-include'
 
 
+" C#
 "Plugin 'oranget/vim-csharp'
 Plugin 'OmniSharp/omnisharp-vim'
+"Plugin 'scrooloose/syntastic'
+Plugin 'dense-analysis/ale'
+Plugin 'puremourning/vimspector'
+Plugin 'prabirshrestha/asyncomplete.vim'
+
+
+Plugin 'dsawardekar/wordpress.vim'
 
 Plugin 'peterhoeg/vim-qml'
 
@@ -119,7 +127,7 @@ Plugin 'majutsushi/tagbar'
 
 "Plugin 'OmniCppComplete'
 "
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 
 
 " Other langs
@@ -130,7 +138,7 @@ Plugin 'tikhomirov/vim-glsl'
 Plugin 'sirver/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
+"Plugin 'honza/vim-snippets'
 
 Plugin 'derekwyatt/vim-fswitch'
 
@@ -146,7 +154,21 @@ Plugin 'tobyS/vmustache'
 
 Plugin 'StanAngeloff/php.vim'
 
-Plugin 'arnaud-lb/vim-php-namespace'
+Plugin 'phpactor/phpactor',  {'do': 'composer install', 'for': 'php'}
+
+"" Require ncm2 and this plugin
+"Plugin 'ncm2/ncm2'
+"Plugin 'roxma/nvim-yarp'
+
+"" NOTE: you need to install completion sources to get completions. Check
+"" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+"Plugin 'ncm2/ncm2-bufword'
+"Plugin 'ncm2/ncm2-path'
+
+"" PHP
+"Plugin 'phpactor/ncm2-phpactor'
+"Plugin 'arnaud-lb/vim-php-namespace'
+"Plugin 'stephpy/vim-php-cs-fixer'
 
 Plugin 'tobyS/pdv'
 
@@ -317,7 +339,7 @@ let g:indentLine_enabled = 1
 
 " CTRLP
 let g:ctrlp_max_files=0
-set wildignore=node_modules,build,Library,*.meta
+set wildignore=node_modules,build,Library,*.meta,*.csproj,Debug
 
 
 
@@ -370,6 +392,24 @@ let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 let g:OmniSharp_server_use_mono = 1
 let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
+let g:OmniSharp_diagnostic_exclude_paths = [
+\ 'obj\/',
+\ '[Tt]emp\/',
+\ 'Library\/',
+\ 'ThirdParty\/',
+\ 'Plugins\/',
+\ '\<AssemblyInfo\.cs\>'
+\]
+
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 augroup omnisharp_commands
     autocmd!
@@ -395,7 +435,7 @@ augroup omnisharp_commands
     autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
 
     " Navigate up and down by method/property/field
-    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+    "autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
     autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
 
     " Find all code errors/warnings for the current solution and populate the quickfix window
@@ -425,23 +465,23 @@ nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
 nnoremap <Leader>ss :OmniSharpStartServer<CR>
 
 function! g:UltiSnips_Complete()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-        if pumvisible()
-            return "\<C-n>"
-        else
-            call UltiSnips#JumpForwards()
-            if g:ulti_jump_forwards_res == 0
-               return "\<TAB>"
-            endif
-        endif
-    endif
-    return ""
+	call UltiSnips#ExpandSnippet()
+	if g:ulti_expand_res == 0
+		if pumvisible()
+			return "\<C-n>"
+		else
+			call UltiSnips#JumpForwards()
+			if g:ulti_jump_forwards_res == 0
+			   return "\<TAB>"
+			endif
+		endif
+	endif
+	return ""
 endfunction
 
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-e>"
+"au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsListSnippets="<c-e>"
 
 
 "autocmd BufEnter * :syntax sync fromstart
@@ -458,6 +498,21 @@ let php_html_in_nowdoc = 0
 let php_html_load = 0
 let php_ignore_phpdoc = 0
 let php_htmlInStrings = 1
+
+" enable ncm2 for all buffers
+"autocmd BufEnter *.php call ncm2#enable_for_buffer()
+
+" IMPORTANT: :help Ncm2PopupOpen for more information
+"set completeopt=noinsert,menuone,noselect
+
+"PHP CS Fixer
+
+"let g:php_cs_fixer_path = "~/.vim/php/php-cs-fixer.phar" 
+
+call ale#Set('php_phpcs_executable', 'phpcs2')
+
+nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
+nnoremap <silent><leader>pcf :call PhpCsFixerFixFile()<CR>
 
 
 " Use statements
