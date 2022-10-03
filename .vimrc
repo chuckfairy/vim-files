@@ -10,7 +10,11 @@ set nu
 set winheight=40
 " set winminheight=5
 
-set tabstop=4 softtabstop=0 expandtab! shiftwidth=4 noet
+" Cool 4 tabs
+" set tabstop=4 softtabstop=0 expandtab! shiftwidth=4 noet
+
+" Lame 2 spaces
+set expandtab tabstop=2 shiftwidth=2
 
 set listchars=nbsp:·,tab:│·,trail:\ 
 set list " turns on showing chars described in listchars
@@ -46,11 +50,10 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 "
 
+" Plugin
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'scrooloose/nerdcommenter'
-
-Plugin 'beyondwords/vim-twig'
 
 Plugin 'airblade/vim-gitgutter'
 
@@ -62,18 +65,29 @@ Plugin 'taglist.vim'
 
 Plugin 'kien/ctrlp.vim'
 
+Plugin 'FelikZ/ctrlp-py-matcher'
+
+Plugin 'Yggdroot/indentLine'
+
 
 "Plugin 'tpope/vim-surround'
 
 "Plugin 'Yggdroot/indentLine'
 
+" CSS
 Plugin 'ap/vim-css-color'
 
 Plugin 'godlygeek/csapprox'
 
 Plugin 'Shougo/neocomplcache.vim'
 
+
+" Dev Ops
+
 Plugin 'hashivim/vim-terraform'
+
+Plugin 'chase/vim-ansible-yaml'
+
 
 "Plugin 'Rip-Rip/clang_complete'
 
@@ -85,9 +99,17 @@ Plugin 'sudo.vim'
 
 "Plugin 'matchit.zip'
 
-Plugin 'flazz/vim-colorschemes'
 
+" Color
+Plugin 'flazz/vim-colorschemes'
+Plugin 'chuckfairy/jellyfairy.vim'
+
+
+" NERD
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+
+" Formatting
 
 Plugin 'bronson/vim-trailing-whitespace'
 
@@ -98,7 +120,7 @@ Plugin 'c.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 "Plugin 'vim-scripts/h2cppx'
 "Plugin 'quark-zju/vim-cpp-auto-include'
-
+Plugin 'peterhoeg/vim-qml'
 
 " C#
 "Plugin 'oranget/vim-csharp'
@@ -109,19 +131,14 @@ Plugin 'puremourning/vimspector'
 Plugin 'prabirshrestha/asyncomplete.vim'
 
 
-Plugin 'dsawardekar/wordpress.vim'
-
-Plugin 'peterhoeg/vim-qml'
-
-Plugin 'maksimr/vim-jsbeautify'
-
 "Plugin 'kchmck/vim-coffee-script'
 
 Plugin 'danro/rename.vim'
 
-Plugin 'severin-lemaignan/vim-minimap'
+"Plugin 'severin-lemaignan/vim-minimap'
+"Plugin 'wfxr/code-minimap'
+Plugin 'wfxr/minimap.vim'
 
-Plugin 'mattn/emmet-vim'
 
 Plugin 'majutsushi/tagbar'
 
@@ -132,6 +149,7 @@ Plugin 'majutsushi/tagbar'
 
 " Other langs
 Plugin 'tikhomirov/vim-glsl'
+Plugin 'jparise/vim-graphql'
 
 
 " Track the engine.
@@ -152,9 +170,19 @@ Plugin 'moll/vim-node'
 
 Plugin 'tobyS/vmustache'
 
+
+" PHP
+
 Plugin 'StanAngeloff/php.vim'
 
 Plugin 'phpactor/phpactor',  {'do': 'composer install', 'for': 'php'}
+
+Plugin 'dsawardekar/wordpress.vim'
+
+Plugin 'beyondwords/vim-twig'
+
+
+"
 
 "" Require ncm2 and this plugin
 "Plugin 'ncm2/ncm2'
@@ -178,6 +206,7 @@ Plugin 'vim-utils/vim-man'
 
 "HTML
 Plugin 'alvan/vim-closetag'
+Plugin 'mattn/emmet-vim'
 "Plugin 'othree/html5.vim'
 
 "javascript
@@ -188,18 +217,17 @@ Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/yajs'
 
 Plugin 'mxw/vim-jsx'
+Plugin 'leafgarland/typescript-vim'
+
+Plugin 'maksimr/vim-jsbeautify'
+
 
 Plugin 'benmills/vimux'
 
-Plugin 'chuckfairy/jellyfairy.vim'
 
 Plugin 'AutoComplPop'
 
 Plugin 'elixir-editors/vim-elixir'
-
-Plugin 'chase/vim-ansible-yaml'
-
-Plugin 'leafgarland/typescript-vim'
 
 "Plugin 'joonty/vim-phpunitqf'
 
@@ -207,6 +235,14 @@ Plugin 'leafgarland/typescript-vim'
 
 
 "Plugin 'bbchung/clighter'
+
+"Project
+Plugin 'editorconfig/editorconfig-vim'
+
+
+"NVIM
+Plugin 'lambdalisue/suda.vim'
+
 
 
 " Plugin 'cosminadrianpopescu/vim-sql-workbench'
@@ -333,12 +369,16 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 " Indent
 let g:indentLine_color_term = 239
-let g:indentLine_char = '+'
+let g:indentLine_char = '|'
 let g:indentLine_enabled = 1
+let g:indentLine_leadingSpaceEnabled = 1
+
+set list lcs=tab:\|\ 
 
 
 " CTRLP
 let g:ctrlp_max_files=0
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 set wildignore=node_modules,build,Library,*.meta,*.csproj,Debug
 
 
@@ -368,22 +408,23 @@ let g:NERDTreeDirArrowCollapsible="~"
 
 match ErrorMsg '\s\+$'
 
+" Indent
 let g:indent_guies_start_level=1
 let g:indent_guides_guide_size=1
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 
+" C++
 let g:cpp_class_scope_highlight = 1
 let g:cpp_concepts_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+" YCM
+"let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 "let g:ycm_auto_trigger = 1
-
-let g:ycm_filetype_blacklist = { 'js': 1 }
-
-let g:ycm_auto_start_csharp_server = 1
-let g:ycm_auto_stop_csharp_server = 1
+"let g:ycm_filetype_blacklist = { 'js': 1 }
+"let g:ycm_auto_start_csharp_server = 1
+"let g:ycm_auto_stop_csharp_server = 1
 
 " Disable sql complete
 let g:omni_sql_no_default_maps = 1
@@ -443,7 +484,46 @@ augroup omnisharp_commands
 augroup END
 
 " Tell ALE to use OmniSharp for linting C# files, and no other linters.
-let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:ale_linters = {
+\'cs': ['OmniSharp'],
+\'javascript': ['eslint', 'tsserver'],
+\   'css': ['stylelint'],
+\   'sugarss': ['stylelint'],
+\   'php': ['phpcs', 'phan' ],
+\}
+" 'phpstan', 
+
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'vue': ['eslint']
+\}
+
+
+
+" The following commands are contextual, based on the cursor position.
+nnoremap <buffer> gd :ALEGoToDefinition<CR>
+nnoremap <buffer> <Leader>fi :ALEFindImplementations<CR>
+nnoremap <buffer> <Leader>fs :ALEFindSymbol<CR>
+nnoremap <buffer> <Leader>fu :ALEFindUsages<CR>
+
+" Finds members in the current buffer
+nnoremap <buffer> <Leader>fr :ALEFindReferences<CR>
+
+nnoremap <buffer> <Leader>fx :ALEFixUsings<CR>
+"autocmd FileType cs nnoremap <buffer> <Leader>tt :ALETypeLookup<CR>
+nnoremap <buffer> <Leader>dc :ALEDocumentation<CR>
+
+" Navigate up and down by method/property/field
+"autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+nnoremap <buffer> <C-j> :ALENext<CR>
+
+" Find all code errors/warnings for the current solution and populate the quickfix window
+nnoremap <buffer> <Leader>cc :ALELint<CR>
+
+" Indent line
+"let g:vim_json_syntax_conceal = 0
+let g:vim_json_conceal=0
+set conceallevel=1
 
 " Update semantic highlighting after all text changes
 let g:OmniSharp_highlight_types = 3
@@ -464,28 +544,15 @@ nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
 " Start the omnisharp server for the current solution
 nnoremap <Leader>ss :OmniSharpStartServer<CR>
 
-function! g:UltiSnips_Complete()
-	call UltiSnips#ExpandSnippet()
-	if g:ulti_expand_res == 0
-		if pumvisible()
-			return "\<C-n>"
-		else
-			call UltiSnips#JumpForwards()
-			if g:ulti_jump_forwards_res == 0
-			   return "\<TAB>"
-			endif
-		endif
-	endif
-	return ""
-endfunction
-
-"au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-"let g:UltiSnipsJumpForwardTrigger="<tab>"
-"let g:UltiSnipsListSnippets="<c-e>"
-
 
 "autocmd BufEnter * :syntax sync fromstart
 
+" HTML
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.js,*.tsx'
+let g:closetag_filetypes = 'html,xhtml,phtml,js,jsx'
+let g:closetag_xhtml_filetypes = 'xhtml,jsx,js,tsx'
+let g:closetag_enable_react_fragment = 0
 
 " php syntax options
 " turning off a bunch of things to speed up scrolling
@@ -554,6 +621,8 @@ let g:phpqa_codesniffer_cmd='phpcs.phar'
 " PHP Mess Detector binary (default = "phpmd")
 let g:phpqa_messdetector_cmd='phpmd.phar'
 
+set path+=/home/chuck/Sources/themeco/x/src/js/app/**5
+set suffixesadd=.js,.jsx,.tsx,.vue,.scss
 
 "COLOR
 
