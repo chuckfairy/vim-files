@@ -5,6 +5,11 @@ au BufRead,BufNewFile *.twig set filetype=htmljinja
 au BufRead,BufNewFile *.qss set filetype=css
 au BufRead,BufNewFile *.qrc set filetype=xml
 au BufRead,BufNewFile *.mm set filetype=objc
+au BufRead,BufNewFile *.tsx set filetype=typescript
+au BufRead,BufNewFile *.js set filetype=javascriptreact
+au BufRead,BufNewFile *.tss set filetype=scss
+
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 
 set nu
 set winheight=40
@@ -63,7 +68,11 @@ Plugin 'Shougo/vimproc'
 
 Plugin 'taglist.vim'
 
+" Searching
 Plugin 'kien/ctrlp.vim'
+
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 Plugin 'FelikZ/ctrlp-py-matcher'
 
@@ -95,7 +104,8 @@ Plugin 'chase/vim-ansible-yaml'
 
 " Plugin 'docteurklein/php-getter-setter.vim'
 
-Plugin 'sudo.vim'
+" Non Nvim
+" Plugin 'sudo.vim'
 
 "Plugin 'matchit.zip'
 
@@ -210,14 +220,16 @@ Plugin 'mattn/emmet-vim'
 "Plugin 'othree/html5.vim'
 
 "javascript
-Plugin 'pangloss/vim-javascript'
+Plugin 'sheerun/vim-polyglot'
 
-Plugin 'jelera/vim-javascript-syntax'
+"Plugin 'pangloss/vim-javascript'
+
+"Plugin 'jelera/vim-javascript-syntax'
 
 Plugin 'othree/yajs'
 
-Plugin 'mxw/vim-jsx'
-Plugin 'leafgarland/typescript-vim'
+"Plugin 'mxw/vim-jsx'
+"Plugin 'leafgarland/typescript-vim'
 
 Plugin 'maksimr/vim-jsbeautify'
 
@@ -313,7 +325,7 @@ map <S-f> :FixWhitespace<CR>
 map <C-k> :tabnew %<CR>
 
 
-nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>. :Tags<cr>
 
 nnoremap <leader>3 :YcmForceCompileAndDiagnostics<cr>
 
@@ -368,7 +380,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 
 " Indent
-let g:indentLine_color_term = 239
+let g:indentLine_color_term = 23
 let g:indentLine_char = '|'
 let g:indentLine_enabled = 1
 let g:indentLine_leadingSpaceEnabled = 1
@@ -381,6 +393,9 @@ let g:ctrlp_max_files=0
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 set wildignore=node_modules,build,Library,*.meta,*.csproj,Debug
 
+" FZF
+nnoremap <C-f> :GFiles<CR>
+nnoremap <C-a> :Ag<CR>
 
 
 syntax enable
@@ -411,8 +426,8 @@ match ErrorMsg '\s\+$'
 " Indent
 let g:indent_guies_start_level=1
 let g:indent_guides_guide_size=1
-hi IndentGuidesOdd  ctermbg=black
-hi IndentGuidesEven ctermbg=darkgrey
+hi IndentGuidesOdd  ctermbg=green
+hi IndentGuidesEven ctermbg=green
 
 " C++
 let g:cpp_class_scope_highlight = 1
@@ -495,7 +510,7 @@ let g:ale_linters = {
 
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
-\   'vue': ['eslint']
+\   'vue': ['eslint'],
 \}
 
 
@@ -509,7 +524,7 @@ nnoremap <buffer> <Leader>fu :ALEFindUsages<CR>
 " Finds members in the current buffer
 nnoremap <buffer> <Leader>fr :ALEFindReferences<CR>
 
-nnoremap <buffer> <Leader>fx :ALEFixUsings<CR>
+nnoremap <buffer> <Leader>fx :ALEFix<CR>
 "autocmd FileType cs nnoremap <buffer> <Leader>tt :ALETypeLookup<CR>
 nnoremap <buffer> <Leader>dc :ALEDocumentation<CR>
 
@@ -621,8 +636,16 @@ let g:phpqa_codesniffer_cmd='phpcs.phar'
 " PHP Mess Detector binary (default = "phpmd")
 let g:phpqa_messdetector_cmd='phpmd.phar'
 
+" Path Setup
+
 set path+=/home/chuck/Sources/themeco/x/src/js/app/**5
 set suffixesadd=.js,.jsx,.tsx,.vue,.scss
+
+
+
+" Macros
+" Object expansion
+let @x = 'f,a'
 
 "COLOR
 

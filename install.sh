@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Helper programs
+sudo apt install fzf silversearcher-ag bat ripgrep
+
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 ln -s ~/.vim/.vimrc ~/.vimrc;
