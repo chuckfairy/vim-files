@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+set updatetime=300
+
 " File Types
 au BufRead,BufNewFile *.twig set filetype=htmljinja
 au BufRead,BufNewFile *.qss set filetype=css
@@ -7,6 +9,7 @@ au BufRead,BufNewFile *.qrc set filetype=xml
 au BufRead,BufNewFile *.mm set filetype=objc
 au BufRead,BufNewFile *.tsx set filetype=typescript
 au BufRead,BufNewFile *.js set filetype=javascriptreact
+au BufRead,BufNewFile *.scss set filetype=scss
 au BufRead,BufNewFile *.tss set filetype=scss
 
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
@@ -69,13 +72,13 @@ Plugin 'Shougo/vimproc'
 Plugin 'taglist.vim'
 
 " Searching
-Plugin 'kien/ctrlp.vim'
-
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
-Plugin 'FelikZ/ctrlp-py-matcher'
+"Plugin 'kien/ctrlp.vim'
+"Plugin 'FelikZ/ctrlp-py-matcher'
 
+" UI
 Plugin 'Yggdroot/indentLine'
 
 
@@ -88,7 +91,7 @@ Plugin 'ap/vim-css-color'
 
 Plugin 'godlygeek/csapprox'
 
-Plugin 'Shougo/neocomplcache.vim'
+"Plugin 'Shougo/neocomplcache.vim'
 
 
 " Dev Ops
@@ -117,6 +120,7 @@ Plugin 'chuckfairy/jellyfairy.vim'
 
 " NERD
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'ryanoasis/vim-devicons'
 
 
 " Formatting
@@ -138,7 +142,10 @@ Plugin 'OmniSharp/omnisharp-vim'
 "Plugin 'scrooloose/syntastic'
 Plugin 'dense-analysis/ale'
 Plugin 'puremourning/vimspector'
-Plugin 'prabirshrestha/asyncomplete.vim'
+"Plugin 'prabirshrestha/asyncomplete.vim'
+
+" Completion
+Plugin 'neoclide/coc.nvim'
 
 
 "Plugin 'kchmck/vim-coffee-script'
@@ -158,12 +165,12 @@ Plugin 'majutsushi/tagbar'
 
 
 " Other langs
-Plugin 'tikhomirov/vim-glsl'
-Plugin 'jparise/vim-graphql'
+"Plugin 'tikhomirov/vim-glsl'
+"Plugin 'jparise/vim-graphql'
 
 
 " Track the engine.
-Plugin 'sirver/ultisnips'
+"Plugin 'sirver/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
 "Plugin 'honza/vim-snippets'
@@ -174,8 +181,6 @@ Plugin 'will133/vim-dirdiff'
 
 Plugin 'vim-scripts/TaskList.vim'
 
-Plugin 'tomlion/vim-solidity'
-
 Plugin 'moll/vim-node'
 
 Plugin 'tobyS/vmustache'
@@ -183,13 +188,13 @@ Plugin 'tobyS/vmustache'
 
 " PHP
 
-Plugin 'StanAngeloff/php.vim'
+"Plugin 'StanAngeloff/php.vim'
 
 Plugin 'phpactor/phpactor',  {'do': 'composer install', 'for': 'php'}
 
 Plugin 'dsawardekar/wordpress.vim'
 
-Plugin 'beyondwords/vim-twig'
+"Plugin 'beyondwords/vim-twig'
 
 
 "
@@ -237,9 +242,7 @@ Plugin 'maksimr/vim-jsbeautify'
 Plugin 'benmills/vimux'
 
 
-Plugin 'AutoComplPop'
-
-Plugin 'elixir-editors/vim-elixir'
+"Plugin 'AutoComplPop'
 
 "Plugin 'joonty/vim-phpunitqf'
 
@@ -289,9 +292,9 @@ filetype plugin indent on    " required
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 
 
-set completeopt=longest,menuone
-Bundle 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+"Bundle 'ervandew/supertab'
+"let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+
 Bundle 'scrooloose/nerdtree'
 
 Plugin 'EvanDotPro/nerdtree-chmod'
@@ -389,13 +392,18 @@ set list lcs=tab:\|\
 
 
 " CTRLP
-let g:ctrlp_max_files=0
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+"let g:ctrlp_max_files=0
+"let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 set wildignore=node_modules,build,Library,*.meta,*.csproj,Debug
 
 " FZF
 nnoremap <C-f> :GFiles<CR>
+nnoremap <C-p> :Files<CR>
 nnoremap <C-a> :Ag<CR>
+
+" FZF don't search by file names
+"command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right'), <bang>0)
 
 
 syntax enable
@@ -458,14 +466,49 @@ let g:OmniSharp_diagnostic_exclude_paths = [
 \ '\<AssemblyInfo\.cs\>'
 \]
 
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+"set completeopt=menu,menuone,preview,noselect,noinsert
+
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
 
 augroup omnisharp_commands
     autocmd!
@@ -516,7 +559,7 @@ let g:ale_fixers = {
 
 
 " The following commands are contextual, based on the cursor position.
-nnoremap <buffer> gd :ALEGoToDefinition<CR>
+"nnoremap <buffer> gd :ALEGoToDefinition<CR>
 nnoremap <buffer> <Leader>fi :ALEFindImplementations<CR>
 nnoremap <buffer> <Leader>fs :ALEFindSymbol<CR>
 nnoremap <buffer> <Leader>fu :ALEFindUsages<CR>
@@ -587,6 +630,7 @@ let php_htmlInStrings = 1
 " IMPORTANT: :help Ncm2PopupOpen for more information
 "set completeopt=noinsert,menuone,noselect
 
+
 "PHP CS Fixer
 
 "let g:php_cs_fixer_path = "~/.vim/php/php-cs-fixer.phar" 
@@ -635,6 +679,8 @@ let g:phpqa_codesniffer_cmd='phpcs.phar'
 
 " PHP Mess Detector binary (default = "phpmd")
 let g:phpqa_messdetector_cmd='phpmd.phar'
+
+let g:wordpress_vim_wordpress_path='/home/chuck/Sources/wp/wordpress'
 
 " Path Setup
 

@@ -17,6 +17,8 @@ echo "Installing vim Plugins"
 
 vim -c :PluginInstall -c :qa
 
+vim -c :CocInstall coc-tsserver coc-json coc-html coc-css coc-phpls coc-ccls
+
 
 echo "Install YCM modules"
 
