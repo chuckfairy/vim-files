@@ -11,6 +11,9 @@ au BufRead,BufNewFile *.tsx set filetype=typescript
 au BufRead,BufNewFile *.js set filetype=javascriptreact
 au BufRead,BufNewFile *.scss set filetype=scss
 au BufRead,BufNewFile *.tss set filetype=scss
+au BufRead,BufNewFile *.cnf set filetype=config
+au BufRead,BufNewFile *.neon set filetype=yaml
+au BufRead,BufNewFile *.tco set filetype=zip
 
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 
@@ -42,7 +45,7 @@ set clipboard=unnamedplus
 
 set nofoldenable " No code folding
 
-set cindent
+" set cindent
 
 "Status Line
 set statusline=%<%f%m\ \[%Y]\ %=\ Line:%l\/%L\ Column:%c%V\ %P
@@ -115,6 +118,7 @@ Plugin 'chase/vim-ansible-yaml'
 
 " Color
 Plugin 'flazz/vim-colorschemes'
+Plugin 'folke/tokyonight.nvim'
 Plugin 'chuckfairy/jellyfairy.vim'
 
 
@@ -158,6 +162,7 @@ Plugin 'wfxr/minimap.vim'
 
 
 Plugin 'majutsushi/tagbar'
+
 
 "Plugin 'OmniCppComplete'
 "
@@ -319,7 +324,7 @@ let NERDTreeShowLineNumbers=1
 
 " make sure relative line numbers are used
 autocmd FileType nerdtree setlocal relativenumber
-let NERDTreeIgnore = ['\.meta$']
+let NERDTreeIgnore = ['\.meta$', '\.gcno$']
 
 " @TODO autocmd BufWritePre /some/path/**.cpp :ruby CppAutoInclude::process
 
@@ -400,10 +405,13 @@ set wildignore=node_modules,build,Library,*.meta,*.csproj,Debug
 nnoremap <C-f> :GFiles<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <C-a> :Ag<CR>
+nnoremap <C-a> :Ag<CR>
+nnoremap <C-o> :Rg<CR>
 
 " FZF don't search by file names
 "command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right'), <bang>0)
+"com! -bar -bang Rg call fzf#vim#rg(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right'), <bang>0)
 
 
 syntax enable
@@ -455,6 +463,7 @@ let g:ftplugin_sql_omni_key = '<Leader>sql'
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 let g:OmniSharp_server_use_mono = 1
+"let g:OmniSharp_server_use_net6 = 1
 let g:OmniSharp_server_stdio = 1
 let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
 let g:OmniSharp_diagnostic_exclude_paths = [
@@ -516,7 +525,7 @@ augroup omnisharp_commands
     " Show type information automatically when the cursor stops moving.
     " Note that the type is echoed to the Vim command line, and will overwrite
     " any other messages in this space including e.g. ALE linting messages.
-    autocmd CursorHold *.cs OmniSharpTypeLookup
+    "autocmd CursorHold *.cs OmniSharpTypeLookup
 
     " The following commands are contextual, based on the cursor position.
     autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
@@ -547,7 +556,8 @@ let g:ale_linters = {
 \'javascript': ['eslint', 'tsserver'],
 \   'css': ['stylelint'],
 \   'sugarss': ['stylelint'],
-\   'php': ['phpcs', 'phan' ],
+\   'cpp': ['cc'],
+\   'php': ['phan' ],
 \}
 " 'phpstan', 
 
@@ -635,7 +645,7 @@ let php_htmlInStrings = 1
 
 "let g:php_cs_fixer_path = "~/.vim/php/php-cs-fixer.phar" 
 
-call ale#Set('php_phpcs_executable', 'phpcs2')
+"call ale#Set('php_phpcs_executable', 'phpcs2')
 
 nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
 nnoremap <silent><leader>pcf :call PhpCsFixerFixFile()<CR>
@@ -687,7 +697,9 @@ let g:wordpress_vim_wordpress_path='/home/chuck/Sources/wp/wordpress'
 set path+=/home/chuck/Sources/themeco/x/src/js/app/**5
 set suffixesadd=.js,.jsx,.tsx,.vue,.scss
 
-
+" Markdown
+let g:polyglot_disabled = ['markdown', 'md']
+let g:vim_markdown_folding_disabled = 1
 
 " Macros
 " Object expansion
