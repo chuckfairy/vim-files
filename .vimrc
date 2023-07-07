@@ -695,6 +695,7 @@ let g:wordpress_vim_wordpress_path='/home/chuck/Sources/wp/wordpress'
 " Path Setup
 
 set path+=/home/chuck/Sources/themeco/x/src/js/app/**5
+set path+=/home/chuck/Sources/themeco/x/cornerstone/includes/**5
 set suffixesadd=.js,.jsx,.tsx,.vue,.scss
 
 " Markdown
