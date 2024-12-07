@@ -72,3 +72,19 @@ snippet get
 # Get Element
 snippet gett
 	getElementBy${1:Id}('${2}')${3}
+snippet rcc
+	{/* ${1:char} */}
+snippet cb
+	const onClick = useCallback(function() {
+	}, []);
+snippet ue
+	useEffect(function() {
+	}, []);
+snippet fn
+	function ${1:name} () {
+	}
+snippet me
+	const ${1:name} = useMemo(function() {
+	}, [${2:deps}]);
+snippet st
+	const [${1:name}, ${2:setter}] = useState(false);

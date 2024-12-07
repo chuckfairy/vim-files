@@ -3,11 +3,11 @@ scriptencoding utf-8
 set updatetime=300
 
 " File Types
-au BufRead,BufNewFile *.twig set filetype=htmljinja
+au BufRead,BufNewFile *.twig set filetype=twig
 au BufRead,BufNewFile *.qss set filetype=css
 au BufRead,BufNewFile *.qrc set filetype=xml
 au BufRead,BufNewFile *.mm set filetype=objc
-au BufRead,BufNewFile *.tsx set filetype=typescript
+au BufRead,BufNewFile *.tsx set filetype=typescriptreact
 au BufRead,BufNewFile *.js set filetype=javascriptreact
 au BufRead,BufNewFile *.scss set filetype=scss
 au BufRead,BufNewFile *.tss set filetype=scss
@@ -51,6 +51,10 @@ set nofoldenable " No code folding
 set statusline=%<%f%m\ \[%Y]\ %=\ Line:%l\/%L\ Column:%c%V\ %P
 
 let &path .= "," . system("git rev-parse --show-toplevel | tr -d '\\n'") . ",**"
+
+" Markdown
+let g:polyglot_disabled = ['markdown', 'md']
+let g:vim_markdown_folding_disabled = 1
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -697,10 +701,6 @@ let g:wordpress_vim_wordpress_path='/home/chuck/Sources/wp/wordpress'
 set path+=/home/chuck/Sources/themeco/x/src/js/app/**5
 set path+=/home/chuck/Sources/themeco/x/cornerstone/includes/**5
 set suffixesadd=.js,.jsx,.tsx,.vue,.scss
-
-" Markdown
-let g:polyglot_disabled = ['markdown', 'md']
-let g:vim_markdown_folding_disabled = 1
 
 " Macros
 " Object expansion
