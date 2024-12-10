@@ -1,5 +1,7 @@
 #!/bin/bash
 
+./install-nvim.sh;
+
 # Helper programs
 sudo apt install fzf silversearcher-ag bat ripgrep
 
